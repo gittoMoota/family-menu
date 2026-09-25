@@ -1,71 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Family Menu: Meal Suggestions</title>
-  <style>
-    .tab {
-      display: inline-block;
-      margin-right: 10px;
-      padding: 8px;
-      background: #ddd;
-      cursor: pointer;
-    }
-    .tab-content {
-      display: none;
-      margin-top: 20px;
-    }
-    .active {
-      display: block;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <h1>Family Meal Voting</h1>
-  <p><strong>Current Date & Time:</strong> <span id="datetime"></span></p>
 
-  <h2>Your Name/Nickname</h2>
-  <input type="text" id="name" placeholder="Enter your name"><br><br>
+<body class="landing-page">
 
-  <!-- Tabs -->
-  <div>
-    <div class="tab" onclick="showTab('breakfast')">Breakfast</div>
-    <div class="tab" onclick="showTab('lunch')">Lunch</div>
-    <div class="tab" onclick="showTab('dinner')">Dinner</div>
+  <h1>Family Menu: Meal Suggestions</h1>
+
+  <div class="name-section">
+    <label for="name">Name/Nickname</label>
+    <input type="text" id="name" placeholder="Enter your name">
   </div>
 
-  <!-- Breakfast -->
-  <div id="breakfast" class="tab-content">
-    <h2>Breakfast Option</h2>
-    <label><input type="radio" name="breakfast" value="Yes"> Yes, I want breakfast</label><br>
-    <label><input type="radio" name="breakfast" value="No"> No, I’ll skip breakfast</label><br>
+  <div class="tscs-box">
+    <h2>Terms & Conditions</h2>
+
+    <p>
+      By participating in Family Meal Voting, you agree to share your meal
+      preferences for family meal planning and discussion purposes.
+    </p>
+
+    <p>
+      Your choices are intended to help the family decide which meals may be
+      prepared for breakfast, lunch, and dinner.
+    </p>
+
+    <p>
+      You may select the meal options that best suit your preference. Your
+      selections are suggestions and do not guarantee that a particular meal
+      will be prepared.
+    </p>
+
+    <p>
+      Please provide a name or nickname so that the family can identify whose
+      meal preferences were submitted.
+    </p>
+
+    <p>
+      Your information is intended for use within this family meal-planning
+      activity only and should not be shared outside the intended participants.
+    </p>
+
+    <p>
+      By clicking <strong>Accept</strong>, you confirm that you understand and
+      agree to these terms and are ready to submit your meal preferences.
+    </p>
+
+    <button onclick="goToSuggestions()">Accept</button>
   </div>
 
-  <!-- Lunch -->
-  <div id="lunch" class="tab-content">
-    <h2>Lunch Options</h2>
-    <label><input type="radio" name="lunch" value="Meal A"> Meal A</label><br>
-    <label><input type="radio" name="lunch" value="Meal B"> Meal B</label><br>
-    <label><input type="radio" name="lunch" value="Meal C"> Meal C</label><br>
-  </div>
+  <div id="datetime"></div>
 
-  <!-- Dinner -->
-  <div id="dinner" class="tab-content">
-    <h2>Dinner Options</h2>
-    <label><input type="radio" name="dinner" value="Meal X"> Meal X</label><br>
-    <label><input type="radio" name="dinner" value="Meal Y"> Meal Y</label><br>
-    <label><input type="radio" name="dinner" value="Meal Z"> Meal Z</label><br>
-  </div>
+  <script>
+    function updateDateTime() {
+      const now = new Date();
 
-  <!-- Delivery -->
-  <h2>Delivery Preference</h2>
-  <label><input type="radio" name="delivery" value="Bedroom"> Bedroom</label><br>
-  <label><input type="radio" name="delivery" value="Dining Table"> Dining Table</label><br>
-  <label><input type="radio" name="delivery" value="Pickup"> Pickup</label><br>
-  <label>Custom: <input type="text" name="custom-location" placeholder="Enter location"></label><br>
-  <label>Time: <input type="text" name="custom-time" placeholder="Enter time"></label><br>
+      const formatted =
+        now.getFullYear() + "/" +
+        String(now.getMonth() + 1).padStart(2, '0') + "/" +
+        String(now.getDate()).padStart(2, '0') + ", " +
+        String(now.getHours()).padStart(2, '0') + ":" +
+        String(now.getMinutes()).padStart(2, '0') + ":" +
+        String(now.getSeconds()).padStart(2, '0');
 
-  <button id="submit-btn">Submit Choices</button>
+      document.getElementById("datetime").textContent = formatted;
+    }
 
-  <script src="script.js"></script>
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+
+    function goToSuggestions() {
+      window.location.href = "suggestions.html";
+    }
+  </script>
+
 </body>
 </html>

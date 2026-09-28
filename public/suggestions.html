@@ -18,96 +18,76 @@
     <div class="tab" onclick="showTab('dinner')">Dinner</div>
   </div>
 
+  <!-- Breakfast -->
   <div id="breakfast" class="tab-content">
     <div class="tab-text">
       <h2>Breakfast Options</h2>
-      <label>
-        <input type="radio" name="breakfast" value="yes">
-        Yes, I want breakfast
-      </label>
-      <br>
-      <label>
-        <input type="radio" name="breakfast" value="no">
-        No, I'll skip breakfast
-      </label>
+      <label><input type="radio" name="breakfast" value="yes"> Yes, I want breakfast</label><br>
+      <label><input type="radio" name="breakfast" value="no"> No, I'll skip breakfast</label>
     </div>
-
     <div class="tab-image">
       <img src="images/caffeine-rush-coffee.gif" alt="Walking coffee with pancakes">
     </div>
   </div>
 
+  <!-- Lunch -->
   <div id="lunch" class="tab-content">
     <div class="tab-text">
       <h2>Lunch Options</h2>
-
-      <label>
-        <input type="radio" name="lunch" value="stew">
-        Beef/Chicken stew and pap
-      </label>
-      <br>
-
-      <label>
-        <input type="radio" name="lunch" value="pasta">
-        Creamy pasta / Sontag kos
-      </label>
-      <br>
-
-      <label>
-        <input type="radio" name="lunch" value="to">
-        Takeouts
-      </label>
+      <label><input type="radio" name="lunch" value="stew"> Beef/Chicken stew and pap</label><br>
+      <label><input type="radio" name="lunch" value="pasta"> Creamy pasta / Sontag kos</label><br>
+      <label><input type="radio" name="lunch" value="to"> Takeouts</label>
     </div>
-
     <div class="tab-image">
       <img src="images/lunch.gif" alt="Walking spoon with lunch">
     </div>
   </div>
 
+  <!-- Dinner -->
   <div id="dinner" class="tab-content">
     <div class="tab-text">
       <h2>Dinner Options</h2>
-
-      <label>
-        <input type="radio" name="dinner" value="sandwich">
-        Sandwich & Fries
-      </label>
-      <br>
-
-      <label>
-        <input type="radio" name="dinner" value="fries">
-        Steak & Fries
-      </label>
-      <br>
-
-      <label>
-        <input type="radio" name="dinner" value="pap">
-        Pap, tomato gravy (Chakalaka) & wors
-      </label>
-      <br>
-
-      <label>
-        <input type="radio" name="dinner" value="to">
-        Takeout
-      </label>
+      <label><input type="radio" name="dinner" value="sandwich"> Sandwich & Fries</label><br>
+      <label><input type="radio" name="dinner" value="fries"> Steak & Fries</label><br>
+      <label><input type="radio" name="dinner" value="pap"> Pap, tomato gravy (Chakalaka) & wors</label><br>
+      <label><input type="radio" name="dinner" value="to"> Takeout</label>
     </div>
-
     <div class="tab-image">
       <img src="images/dinner3.gif" alt="Walking spoon with dinner">
     </div>
   </div>
 
-  <button id="submit-btn">Submit Choices</button>
-  <script>
-  document.getElementById("submit-btn").addEventListener("click", function() {
-    // Redirect to results page
-    window.location.href = "suggResults.html";
-    
-  });
-</script>
+  <!-- Allergies / Restrictions -->
+  <div class="allergies-box">
+    <h3>Allergies / Foods I don’t eat</h3>
+    <textarea id="allergies" rows="3" cols="40" placeholder="Write allergies or foods you avoid..."></textarea>
+  </div>
 
+  <!-- Submit -->
+  <button id="submit-btn">Submit Choices</button>
+
+  <script>
+    document.getElementById("submit-btn").addEventListener("click", function() {
+      const breakfast = document.querySelector('input[name="breakfast"]:checked')?.value;
+      const lunch = document.querySelector('input[name="lunch"]:checked')?.value;
+      const dinner = document.querySelector('input[name="dinner"]:checked')?.value;
+      const allergies = document.getElementById("allergies").value.trim();
+
+      // Load existing votes or start fresh
+      let votes = JSON.parse(localStorage.getItem("mealChoices")) || [];
+      votes.push({ breakfast, lunch, dinner, allergies, timestamp: new Date().toISOString() });
+
+      localStorage.setItem("mealChoices", JSON.stringify(votes));
+
+      // Reset inputs
+      document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
+      document.getElementById("allergies").value = "";
+
+      // Redirect to results page
+      window.location.href = "suggResults.html";
+    });
+  </script>
 
   <script src="script.js"></script>
-
 </body>
 </html>

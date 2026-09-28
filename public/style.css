@@ -32,6 +32,14 @@ button:hover {
   transform: scale(1.05);
 }
 
+/* Exit button distinct style */
+#exit-btn {
+  background-color: #e74c3c; /* red */
+}
+#exit-btn:hover {
+  background-color: #c0392b;
+}
+
 .landing-page {
   min-height: 100vh;
 }
@@ -75,16 +83,7 @@ button:hover {
   margin: 15px 0;
 }
 
-.landing-page #datetime {
-  position: fixed;
-  right: 20px;
-  bottom: 10px;
-  color: #fff;
-  font-size: 14px;
-  text-align: right;
-  z-index: 1000;
-}
-
+.landing-page #datetime,
 .suggestions-page #datetime {
   position: fixed;
   right: 20px;
@@ -195,30 +194,16 @@ input[type="radio"] {
   margin: 10px;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes peek {
-  0% {
-    transform: translateX(0);
-  }
-
-  50% {
-    transform: translateX(-50px);
-  }
-
-  100% {
-    transform: translateX(0);
-  }
+/* Allergies text box styling */
+.allergies-box textarea {
+  width: 80%;
+  max-width: 500px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #999;
+  font-size: 16px;
+  margin: 20px auto;
+  display: block;
 }
 
 /* Results page */
@@ -271,6 +256,22 @@ input[type="radio"] {
   background-color: #d0f0d0; /* hover highlight */
 }
 
+/* Allergies list styling */
+#allergies-list {
+  list-style-type: disc;
+  text-align: left;
+  margin: 20px auto;
+  width: 80%;
+  font-size: 16px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+#allergies-list li {
+  margin: 8px 0;
+}
+
 /* Date/time footer */
 .results-page #datetime {
   position: fixed;
@@ -280,4 +281,27 @@ input[type="radio"] {
   font-size: 14px;
   text-align: right;
   z-index: 1000;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes peek {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-50px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }

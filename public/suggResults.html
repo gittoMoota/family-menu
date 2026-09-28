@@ -21,6 +21,54 @@
     <tbody></tbody>
   </table>
 
-  <script src="suggResults.js"></script>
+  <h2>Allergies / Restrictions</h2>
+  <ul id="allergies-list"></ul>
+
+  <!-- Exit button -->
+  <button id="exit-btn">Exit Results</button>
+
+  <script>
+    window.onload = function() {
+      const now = new Date();
+      document.getElementById("datetime").innerText = now.toLocaleString();
+
+      let votes = JSON.parse(localStorage.getItem("mealChoices")) || [];
+
+      // Reset at 9pm
+      if (now.getHours() >= 21) {
+        localStorage.removeItem("mealChoices");
+        votes = [];
+      }
+
+      const totals = { breakfast: {}, lunch: {}, dinner: {} };
+      const allergiesList = document.getElementById("allergies-list");
+
+      votes.forEach(vote => {
+        if (vote.breakfast) totals.breakfast[vote.breakfast] = (totals.breakfast[vote.breakfast] || 0) + 1;
+        if (vote.lunch) totals.lunch[vote.lunch] = (totals.lunch[vote.lunch] || 0) + 1;
+        if (vote.dinner) totals.dinner[vote.dinner] = (totals.dinner[vote.dinner] || 0) + 1;
+        if (vote.allergies) {
+          const li = document.createElement("li");
+          li.textContent = vote.allergies;
+          allergiesList.appendChild(li);
+        }
+      });
+
+      const tableBody = document.querySelector("#results-table tbody");
+
+      for (const [mealType, options] of Object.entries(totals)) {
+        for (const [option, count] of Object.entries(options)) {
+          const row = document.createElement("tr");
+          row.innerHTML = `<td>${mealType}</td><td>${option}</td><td>${count}</td>`;
+          tableBody.appendChild(row);
+        }
+      }
+    };
+
+    // Exit button logic
+    document.getElementById("exit-btn").addEventListener("click", function() {
+      window.location.href = "index.html"; // Ts&Cs landing page
+    });
+  </script>
 </body>
 </html>

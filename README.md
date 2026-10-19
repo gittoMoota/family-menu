@@ -1,163 +1,117 @@
 # 🍽️ Family Meal Suggestions
 
-## Overview
+<div align="center">
 
-Family Meal Suggestions is a web-based meal planning and voting application designed to help family members collectively decide on meals for breakfast, lunch, and dinner.
+### 🟢 Family Meal Planning Made Simple 🔵
 
-The system allows family members to:
+A collaborative family meal voting system built using **HTML**, **CSS**, **JavaScript**, **Firebase Firestore**, and **Firebase Hosting**.
 
-- Enter their name or nickname.
-- Read and accept Terms & Conditions.
-- Vote on meal preferences.
-- Submit food allergies, dietary restrictions, or foods they do not eat.
-- View meal voting results.
-- View dietary notes submitted by family members.
+🌐 Live Site:
+https://familymealsuggestions-gitto1.web.app
 
-The application is hosted using Firebase Hosting and stores all votes in Firebase Firestore, allowing multiple users to access and contribute to the same shared data.
+</div>
 
 ---
 
-## Problem Statement
+## 📖 About The Project
 
-Planning family meals can become challenging when family members have different preferences, dietary restrictions, and allergies.
+Family Meal Suggestions is a web application created to simplify family meal planning by allowing family members to vote on preferred meals for:
 
-This application was developed to provide a central platform where family members can participate in meal planning by submitting their preferences and viewing collective voting results.
+🥞 Breakfast
+
+🍝 Lunch
+
+🍔 Dinner
+
+Family members can also submit:
+
+✅ Allergies
+
+✅ Dietary restrictions
+
+✅ Foods they do not eat
+
+✅ Additional meal notes
+
+All voting data is stored in **Firebase Firestore**, making it available to every participant using the application.
 
 ---
 
-## Features
+## ✨ Features
 
-### Landing Page
-The landing page allows users to:
+### 🟢 Landing Page
 
-- Enter a name or nickname.
-- Read the Terms & Conditions.
-- Accept and continue to the voting page.
+- Enter a name or nickname
+- Read Terms & Conditions
+- Accept and continue to meal voting
 
-### Meal Suggestions Page
+---
 
-Users can vote on the following categories:
+### 🔵 Meal Suggestions Page
 
-#### Breakfast
+#### 🥞 Breakfast Options
+
 - Yes, I want breakfast
 - No, I'll skip breakfast
 
-#### Lunch
+#### 🍝 Lunch Options
+
 - Beef/Chicken Stew and Pap
 - Creamy Pasta / Sontag Kos
 - Takeouts
 
-#### Dinner
+#### 🍔 Dinner Options
+
 - Sandwich & Fries
 - Steak & Fries
 - Pap, Tomato Gravy (Chakalaka) & Wors
 - Takeout
 
-### Dietary Restrictions
+---
 
-Users can provide:
-- Allergy information
-- Dietary restrictions
-- Foods they do not eat
-- Additional meal notes
+### 📝 Dietary Restrictions
 
-### Results Page
+Family members can provide:
+
+- Allergies
+- Dietary requirements
+- Foods they avoid
+- Additional notes
+
+---
+
+### 📊 Results Page
 
 Displays:
 
-- Total votes for each meal option.
-- Allergy and dietary restriction submissions.
-- Names associated with dietary notes.
-
-### Cloud Database
-
-All submissions are stored in Firebase Firestore.
-
-This allows:
-
-- Multiple family members to vote.
-- Shared access to voting results.
-- Persistent storage of meal suggestions.
+- Total votes for meal options
+- Allergy submissions
+- User dietary notes
+- Names associated with each note
 
 ---
 
-## Technologies Used
-
-### Frontend
-- HTML5
-- CSS3
-- JavaScript (ES6)
-
-### Backend
-- Firebase Firestore Database
-
-### Hosting
-- Firebase Hosting
-
-### Development Tools
-- Visual Studio Code
-- Git
-- GitHub
-
----
-
-## Application Workflow
-
-### Step 1
-The user enters a name or nickname on the landing page.
-
-### Step 2
-The user reads and accepts the Terms & Conditions.
-
-### Step 3
-The user selects meal preferences for:
-
-- Breakfast
-- Lunch
-- Dinner
-
-### Step 4
-The user enters any allergies or dietary restrictions.
-
-### Step 5
-The application submits the user's information to Firebase Firestore.
-
-### Step 6
-The user is redirected to the Results page.
-
-### Step 7
-The Results page retrieves all submissions and displays:
-
-- Total meal votes.
-- Allergy information.
-- User names associated with submitted dietary notes.
-
----
-
-## Database Structure
-
-### Collection
+## 🏗️ System Workflow
 
 ```text
-votes
-```
-
-### Document Example
-
-```json
-{
-  "name": "Gift",
-  "breakfast": "yes",
-  "lunch": "pasta",
-  "dinner": "pap",
-  "allergies": "No seafood",
-  "timestamp": "2026-09-25T09:00:00Z"
-}
+Landing Page
+     ↓
+Enter Name
+     ↓
+Accept Terms & Conditions
+     ↓
+Vote For Meals
+     ↓
+Submit Allergies/Dietary Notes
+     ↓
+Save To Firestore
+     ↓
+Display Results
 ```
 
 ---
 
-## Project Structure
+## 🗂️ Project Structure
 
 ```text
 family-menu/
@@ -177,60 +131,97 @@ family-menu/
 
 ---
 
-## Live Application
+## ☁️ Database Structure
 
-The application is hosted on Firebase Hosting.
+### Collection
 
 ```text
-https://familymealsuggestions-gitto1.web.app
+votes
+```
+
+### Example Document
+
+```json
+{
+  "name": "Gift",
+  "breakfast": "yes",
+  "lunch": "pasta",
+  "dinner": "pap",
+  "allergies": "No seafood",
+  "timestamp": "2026-09-25T09:00:00Z"
+}
 ```
 
 ---
 
-## Future Improvements
+## 🛠️ Technologies Used
 
-Planned enhancements include:
+### Frontend
 
-- Daily vote reset functionality.
-- Automatic meal reminders.
-- Push notifications.
-- Real-time result updates.
-- Meal history reports.
-- Administrative dashboard.
-- User authentication.
-- Dynamic meal management.
-- Mobile-friendly enhancements.
+- HTML5
+- CSS3
+- JavaScript
 
----
+### Backend
 
-## Learning Outcomes
+- Firebase Firestore
 
-This project provided practical experience in:
+### Hosting
 
-- Frontend web development.
-- JavaScript programming.
-- Firebase Firestore integration.
-- Cloud-hosted applications.
-- Database design.
-- User interface design.
-- Git and GitHub version control.
-- Firebase deployment and hosting.
+- Firebase Hosting
+
+### Development
+
+- Visual Studio Code
+- Git
+- GitHub
 
 ---
 
-## Author
+## 🚀 Future Enhancements
+
+Planned improvements:
+
+- 🔔 Meal reminders
+- 📱 Mobile optimization
+- ⚡ Real-time voting updates
+- 📈 Meal history reports
+- 👨‍💼 Admin dashboard
+- 🔐 User authentication
+- 🍽️ Dynamic meal management
+- 📊 Analytics dashboard
+
+---
+
+## 🎓 Learning Outcomes
+
+This project provided experience in:
+
+- Web Development
+- JavaScript Programming
+- Firebase Firestore Integration
+- Cloud Hosting
+- Database Design
+- User Interface Design
+- Version Control with Git and GitHub
+
+---
+
+## 👨‍💻 Author
 
 ### Kelebogile Gift Moota
 
-- BSc Information Technology Graduate
-- BSc Honours Computer Science Student
-- University of Pretoria
+🎓 BSc Information Technology Graduate
+
+🎓 BSc Honours Computer Science Student
+
+🏫 University of Pretoria
 
 ---
 
-## Development Environment
+## ⚙️ Development Environment
 
-The following tools were used during development:
+### Tools Used
 
 - Visual Studio Code
 - Node.js
@@ -248,19 +239,19 @@ The following tools were used during development:
 npm install -g firebase-tools
 ```
 
-### Firebase Authentication
+### Login To Firebase
 
 ```bash
 firebase login
 ```
 
-### Firebase Project Initialization
+### Initialize Firebase
 
 ```bash
 firebase init
 ```
 
-### Firebase Deployment
+### Deploy To Firebase Hosting
 
 ```bash
 firebase deploy
@@ -268,6 +259,13 @@ firebase deploy
 
 ---
 
-## License
+## 📜 License
 
 This project was developed for educational, learning, and family meal-planning purposes.
+
+---
+
+<div align="center">
+
+### 🟢 Built With Family In Mind 🔵
+

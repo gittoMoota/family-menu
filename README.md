@@ -207,18 +207,6 @@ This project provided experience in:
 
 ---
 
-## 👨‍💻 Author
-
-### Kelebogile Gift Moota
-
-🎓 BSc Information Technology Graduate
-
-🎓 BSc Honours Computer Science Student
-
-🏫 University of Pretoria
-
----
-
 ## ⚙️ Development Environment
 
 ### Tools Used
@@ -256,6 +244,12 @@ firebase init
 ```bash
 firebase deploy
 ```
+
+---
+## 👨‍💻 Author
+
+### gittoMoota
+
 
 ---
 

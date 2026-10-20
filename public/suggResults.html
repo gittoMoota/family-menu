@@ -1,74 +1,342 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Family Meal Suggestions Results</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="results-page">
   <h1>Meal Suggestions Results</h1>
-  <p><strong>Result timestamp:</strong> <span id="datetime"></span></p>
-  
-  <h2>Suggestions Summary</h2>
-  <table id="results-table">
-    <thead>
-      <tr>
-        <th>Meal Type</th>
-        <th>Option</th>
-        <th>Votes</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
 
-  <h2>Allergies / Restrictions</h2>
-  <ul id="allergies-list"></ul>
+  <p id="datetime"></p>
+  <p id="results-status" role="status" aria-live="polite">
+    Sign in with the approved family Google account to view results.
+  </p>
 
-  <!-- Exit button -->
-  <button id="exit-btn">Exit Results</button>
+  <button id="sign-in-btn" type="button">
+    Sign in with Google to view results
+  </button>
 
-  <script>
-    window.onload = function() {
-      const now = new Date();
-      document.getElementById("datetime").innerText = now.toLocaleString();
+  <main id="private-results" hidden>
+    <h2>Suggestions Summary</h2>
 
-      let votes = JSON.parse(localStorage.getItem("mealChoices")) || [];
+    <table id="results-table">
+      <thead>
+        <tr>
+          <th>Meal Type</th>
+          <th>Option</th>
+          <th>Votes</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+      <tfoot>
+        <tr>
+          <th colspan="2">Total Votes</th>
+          <th id="total-votes">0</th>
+        </tr>
+      </tfoot>
+    </table>
 
-      // Reset at 9pm
-      if (now.getHours() >= 21) {
-        localStorage.removeItem("mealChoices");
-        votes = [];
-      }
+    <h2>Meal Arrangements</h2>
 
-      const totals = { breakfast: {}, lunch: {}, dinner: {} };
-      const allergiesList = document.getElementById("allergies-list");
+    <table id="arrangements-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Meal</th>
+          <th>Eating Location</th>
+          <th>Delivery</th>
+          <th>Preferred Time</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
 
-      votes.forEach(vote => {
-        if (vote.breakfast) totals.breakfast[vote.breakfast] = (totals.breakfast[vote.breakfast] || 0) + 1;
-        if (vote.lunch) totals.lunch[vote.lunch] = (totals.lunch[vote.lunch] || 0) + 1;
-        if (vote.dinner) totals.dinner[vote.dinner] = (totals.dinner[vote.dinner] || 0) + 1;
-        if (vote.allergies) {
-          const li = document.createElement("li");
-          li.textContent = vote.allergies;
-          allergiesList.appendChild(li);
-        }
-      });
+    <h2>Allergies / Restrictions</h2>
+    <ul id="allergies-list"></ul>
+  </main>
 
-      const tableBody = document.querySelector("#results-table tbody");
+  <button id="exit-btn" type="button">Exit Results</button>
 
-      for (const [mealType, options] of Object.entries(totals)) {
-        for (const [option, count] of Object.entries(options)) {
-          const row = document.createElement("tr");
-          row.innerHTML = `<td>${mealType}</td><td>${option}</td><td>${count}</td>`;
-          tableBody.appendChild(row);
-        }
-      }
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
+    import {
+      getFirestore,
+      collection,
+      getDocs
+    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+    import {
+      getAuth,
+      GoogleAuthProvider,
+      signInWithPopup,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDHE2ME29K8RuJLGv_CKkom0IBK7vbrCHM",
+      authDomain: "familymealsuggestions.firebaseapp.com",
+      projectId: "familymealsuggestions",
+      storageBucket: "familymealsuggestions.firebasestorage.app",
+      messagingSenderId: "330453306691",
+      appId: "1:330453306691:web:29b62a28397c66c18533f6"
     };
 
-    // Exit button logic
-    document.getElementById("exit-btn").addEventListener("click", function() {
-      window.location.href = "index.html"; // Ts&Cs landing page
+    const approvedEmail = [
+  "giftmoota04@gmail.com",
+  "Mootapatricia@gmail.com"
+];
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+    const googleProvider = new GoogleAuthProvider();
+
+    const mealNames = {
+      breakfast: "Breakfast",
+      lunch: "Lunch",
+      dinner: "Dinner"
+    };
+
+    function updateDateTime() {
+      document.getElementById("datetime").textContent =
+        "Current Date & Time: " +
+        new Date().toLocaleString("en-ZA", {
+          timeZone: "Africa/Johannesburg"
+        });
+    }
+
+    function addCell(row, value) {
+      const cell = document.createElement("td");
+
+      cell.textContent =
+        value !== undefined &&
+        value !== null &&
+        String(value).trim() !== ""
+          ? String(value)
+          : "Not specified";
+
+      row.appendChild(cell);
+    }
+
+    function addMessageRow(tableBody, message, columns) {
+      const row = document.createElement("tr");
+      const cell = document.createElement("td");
+
+      cell.colSpan = columns;
+      cell.textContent = message;
+
+      row.appendChild(cell);
+      tableBody.appendChild(row);
+    }
+
+    async function loadResults() {
+      const status = document.getElementById("results-status");
+      const summaryBody =
+        document.querySelector("#results-table tbody");
+      const arrangementsBody =
+        document.querySelector("#arrangements-table tbody");
+      const allergiesList =
+        document.getElementById("allergies-list");
+      const totalVotesElement =
+        document.getElementById("total-votes");
+
+      status.textContent = "Loading results...";
+
+      summaryBody.replaceChildren();
+      arrangementsBody.replaceChildren();
+      allergiesList.replaceChildren();
+      totalVotesElement.textContent = "0";
+
+      try {
+        const snapshot = await getDocs(collection(db, "votes"));
+        const submissions = snapshot.docs.map(doc => doc.data());
+
+        const totals = {
+          breakfast: {},
+          lunch: {},
+          dinner: {}
+        };
+
+        let totalVotes = 0;
+
+        submissions.forEach(submission => {
+          const name = submission.name || "Anonymous";
+
+          for (const meal of ["breakfast", "lunch", "dinner"]) {
+            const choice = submission[meal];
+
+            if (
+              typeof choice === "string" &&
+              choice.trim() !== ""
+            ) {
+              totals[meal][choice] =
+                (totals[meal][choice] || 0) + 1;
+
+              totalVotes++;
+
+              const row = document.createElement("tr");
+
+              addCell(row, name);
+              addCell(row, mealNames[meal]);
+              addCell(row, submission[`${meal}Location`]);
+
+              const delivery = submission[`${meal}Delivery`];
+
+              addCell(
+                row,
+                delivery === "yes"
+                  ? "Yes"
+                  : delivery === "no"
+                    ? "No"
+                    : delivery
+              );
+
+              const preferredTime =
+                meal === "breakfast"
+                  ? "Not applicable"
+                  : submission[`${meal}Time`];
+
+              addCell(row, preferredTime);
+
+              arrangementsBody.appendChild(row);
+            }
+          }
+
+          if (
+            typeof submission.allergies === "string" &&
+            submission.allergies.trim() !== ""
+          ) {
+            const item = document.createElement("li");
+            item.textContent =
+              `${name}: ${submission.allergies}`;
+
+            allergiesList.appendChild(item);
+          }
+        });
+
+        let hasSummary = false;
+
+        for (const [meal, options] of Object.entries(totals)) {
+          for (const [option, count] of Object.entries(options)) {
+            const row = document.createElement("tr");
+
+            addCell(row, mealNames[meal]);
+            addCell(row, option);
+            addCell(row, String(count));
+
+            summaryBody.appendChild(row);
+            hasSummary = true;
+          }
+        }
+
+        if (!hasSummary) {
+          addMessageRow(
+            summaryBody,
+            "No meal votes have been submitted yet.",
+            3
+          );
+        }
+
+        if (arrangementsBody.children.length === 0) {
+          addMessageRow(
+            arrangementsBody,
+            "No meal arrangements have been submitted yet.",
+            5
+          );
+        }
+
+        if (allergiesList.children.length === 0) {
+          const item = document.createElement("li");
+
+          item.textContent =
+            "No allergies or food restrictions submitted.";
+
+          allergiesList.appendChild(item);
+        }
+
+        totalVotesElement.textContent = String(totalVotes);
+
+        status.textContent =
+          `Loaded ${submissions.length} submission(s). ` +
+          `Signed in as ${auth.currentUser.email}.`;
+
+      } catch (error) {
+        console.error("Error loading results from Firebase:", error);
+
+        status.textContent =
+          "Could not load results. Check your connection and " +
+          "Firestore security rules, then try again.";
+
+        addMessageRow(
+          summaryBody,
+          "Results could not be loaded.",
+          3
+        );
+
+        addMessageRow(
+          arrangementsBody,
+          "Meal arrangements could not be loaded.",
+          5
+        );
+      }
+    }
+
+    async function signInAndLoadResults() {
+      const status = document.getElementById("results-status");
+      const signInButton = document.getElementById("sign-in-btn");
+
+      signInButton.disabled = true;
+      status.textContent = "Opening Google sign-in...";
+
+      try {
+        const result = await signInWithPopup(auth, googleProvider);
+        const user = result.user;
+        const email = (user.email || "").toLowerCase();
+
+        if (!approvedEmails.includes(user.email) || !user.emailVerified) {
+          await signOut(auth);
+          document.getElementById("private-results").hidden = true;
+
+          status.textContent =
+          "Access denied. Please use one of these approved, verified " +
+          `Google accounts: ${approvedEmails.join(", ")}.`;
+
+          signInButton.hidden = false;
+          return;
+        }
+        document.getElementById("private-results").hidden = false;
+        signInButton.hidden = true;
+
+        await loadResults();
+
+      } catch (error) {
+        console.error("Google sign-in error:", error);
+
+        status.textContent =
+          error.code === "auth/popup-closed-by-user"
+            ? "Sign-in was cancelled. Select the button to try again."
+            : "Could not sign in. Please try again and check that " +
+              "Google sign-in is enabled in Firebase Authentication.";
+
+      } finally {
+        signInButton.disabled = false;
+      }
+    }
+
+    document
+      .getElementById("sign-in-btn")
+      .addEventListener("click", signInAndLoadResults);
+
+    document.getElementById("exit-btn").addEventListener("click", () => {
+      window.location.href = "index.html";
     });
+
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
   </script>
 </body>
 </html>

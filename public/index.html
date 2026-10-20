@@ -73,8 +73,15 @@
     updateDateTime();
 
     function goToSuggestions() {
-      window.location.href = "suggestions.html";
-    }
+  const name = document.getElementById("name").value.trim();
+  if (name) {
+    localStorage.setItem("familyUserName", name);
+    window.location.href = "suggestions.html";
+  } else {
+    alert("Please enter your name before continuing.");
+  }
+}
+
   </script>
 
 </body>

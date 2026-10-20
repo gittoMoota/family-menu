@@ -2,92 +2,100 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Family Menu: Meal Suggestions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Family Meal Suggestions</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body class="suggestions-page">
+  <h1>Family Meal Suggestions</h1>
+  <div id="datetime" aria-live="off"></div>
+  <p class="page-intro">Choose your breakfast, lunch and dinner preferences.</p>
 
-  <h1>Moota's Family Meal Suggestions</h1>
+  <nav class="tabs" aria-label="Meal choices">
+    <button type="button" class="tab active" data-tab="breakfast" aria-selected="true">Breakfast</button>
+    <button type="button" class="tab" data-tab="lunch" aria-selected="false">Lunch</button>
+    <button type="button" class="tab" data-tab="dinner" aria-selected="false">Dinner</button>
+  </nav>
 
-  <div id="datetime"></div>
+  <main class="meal-choice-wrap">
+    <section id="breakfast" class="tab-content active" aria-labelledby="breakfast-title">
+      <div class="tab-text">
+        <h2 id="breakfast-title">Breakfast Options</h2>
+        <label class="meal-option"><input type="radio" name="breakfast" value="yes"> Yes, I want breakfast</label>
+        <label class="meal-option"><input type="radio" name="breakfast" value="no"> No, I'll skip breakfast</label>
+      </div>
+      <div class="tab-image"><img src="images/caffeine-rush-coffee.gif" alt="Walking coffee with pancakes" loading="lazy"></div>
+    </section>
 
-  <div class="tabs">
-    <div class="tab" onclick="showTab('breakfast')">Breakfast</div>
-    <div class="tab" onclick="showTab('lunch')">Lunch</div>
-    <div class="tab" onclick="showTab('dinner')">Dinner</div>
-  </div>
+    <section id="lunch" class="tab-content" aria-labelledby="lunch-title">
+      <div class="tab-text">
+        <h2 id="lunch-title">Lunch Options</h2>
+        <label class="meal-option"><input type="radio" name="lunch" value="Beef/Chicken stew and pap"> Beef stew and pap</label>
+        <label class="meal-option"><input type="radio" name="lunch" value="Creamy pasta / Sontag kos"> Creamy pasta</label>
+        <label class="meal-option"><input type="radio" name="lunch" value="Takeouts"> Takeouts</label>
+      </div>
+      <div class="tab-image"><img src="images/lunch.gif" alt="Walking spoon with lunch" loading="lazy"></div>
+    </section>
 
-  <!-- Breakfast -->
-  <div id="breakfast" class="tab-content">
-    <div class="tab-text">
-      <h2>Breakfast Options</h2>
-      <label><input type="radio" name="breakfast" value="yes"> Yes, I want breakfast</label><br>
-      <label><input type="radio" name="breakfast" value="no"> No, I'll skip breakfast</label>
-    </div>
-    <div class="tab-image">
-      <img src="images/caffeine-rush-coffee.gif" alt="Walking coffee with pancakes">
-    </div>
-  </div>
+    <section id="dinner" class="tab-content" aria-labelledby="dinner-title">
+      <div class="tab-text">
+        <h2 id="dinner-title">Dinner Options</h2>
+        <label class="meal-option"><input type="radio" name="dinner" value="Sandwich & Fries"> Sandwich &amp; Fries</label>
+        <label class="meal-option"><input type="radio" name="dinner" value="Steak & Fries"> Steak &amp; Fries</label>
+        <label class="meal-option"><input type="radio" name="dinner" value="Pap, tomato gravy (Chakalaka) & wors"> Pap, tomato gravy (Chakalaka) &amp; wors</label>
+        <label class="meal-option"><input type="radio" name="dinner" value="Takeout"> Takeout</label>
+      </div>
+      <div class="tab-image"><img src="images/dinner3.gif" alt="Walking spoon with dinner" loading="lazy"></div>
+    </section>
+  </main>
 
-  <!-- Lunch -->
-  <div id="lunch" class="tab-content">
-    <div class="tab-text">
-      <h2>Lunch Options</h2>
-      <label><input type="radio" name="lunch" value="stew"> Beef/Chicken stew and pap</label><br>
-      <label><input type="radio" name="lunch" value="pasta"> Creamy pasta / Sontag kos</label><br>
-      <label><input type="radio" name="lunch" value="to"> Takeouts</label>
-    </div>
-    <div class="tab-image">
-      <img src="images/lunch.gif" alt="Walking spoon with lunch">
-    </div>
-  </div>
-
-  <!-- Dinner -->
-  <div id="dinner" class="tab-content">
-    <div class="tab-text">
-      <h2>Dinner Options</h2>
-      <label><input type="radio" name="dinner" value="sandwich"> Sandwich & Fries</label><br>
-      <label><input type="radio" name="dinner" value="fries"> Steak & Fries</label><br>
-      <label><input type="radio" name="dinner" value="pap"> Pap, tomato gravy (Chakalaka) & wors</label><br>
-      <label><input type="radio" name="dinner" value="to"> Takeout</label>
-    </div>
-    <div class="tab-image">
-      <img src="images/dinner3.gif" alt="Walking spoon with dinner">
-    </div>
-  </div>
-
-  <!-- Allergies / Restrictions -->
-  <div class="allergies-box">
-    <h3>Allergies / Foods I don’t eat</h3>
-    <textarea id="allergies" rows="3" cols="40" placeholder="Write allergies or foods you avoid..."></textarea>
-  </div>
-
-  <!-- Submit -->
-  <button id="submit-btn">Submit Choices</button>
+  <p id="meal-status" class="form-status" role="status" aria-live="polite"></p>
+  <div class="page-actions"><button id="proceed-btn" type="button">Proceed to Arrangements &amp; Additional Information</button></div>
 
   <script>
-    document.getElementById("submit-btn").addEventListener("click", function() {
-      const breakfast = document.querySelector('input[name="breakfast"]:checked')?.value;
-      const lunch = document.querySelector('input[name="lunch"]:checked')?.value;
-      const dinner = document.querySelector('input[name="dinner"]:checked')?.value;
-      const allergies = document.getElementById("allergies").value.trim();
+    const DRAFT_KEY = "familyMealDraft";
+    function showTab(tabName) {
+      document.querySelectorAll(".tab-content").forEach(panel => {
+        panel.classList.toggle("active", panel.id === tabName);
+      });
+      document.querySelectorAll(".tabs .tab").forEach(button => {
+        const active = button.dataset.tab === tabName;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-selected", String(active));
+      });
+    }
+    document.querySelectorAll(".tabs .tab").forEach(button => {
+      button.addEventListener("click", () => showTab(button.dataset.tab));
+    });
+    function updateDateTime() {
+      document.getElementById("datetime").textContent = new Date().toLocaleString("en-ZA", { timeZone: "Africa/Johannesburg" });
+    }
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
 
-      // Load existing votes or start fresh
-      let votes = JSON.parse(localStorage.getItem("mealChoices")) || [];
-      votes.push({ breakfast, lunch, dinner, allergies, timestamp: new Date().toISOString() });
+    // Restore previously selected meals if the user returns to this page.
+    try {
+      const saved = JSON.parse(localStorage.getItem(DRAFT_KEY) || "{}");
+      ["breakfast", "lunch", "dinner"].forEach(meal => {
+        if (saved[meal]) {
+          const radio = document.querySelector(`input[name="${meal}"][value="${CSS.escape(saved[meal])}"]`);
+          if (radio) radio.checked = true;
+        }
+      });
+    } catch (error) { console.warn("Could not restore meal selections", error); }
 
-      localStorage.setItem("mealChoices", JSON.stringify(votes));
-
-      // Reset inputs
-      document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
-      document.getElementById("allergies").value = "";
-
-      // Redirect to results page
-      window.location.href = "suggResults.html";
+    document.getElementById("proceed-btn").addEventListener("click", () => {
+      const draft = {};
+      ["breakfast", "lunch", "dinner"].forEach(meal => {
+        draft[meal] = document.querySelector(`input[name="${meal}"]:checked`)?.value || "";
+      });
+      try {
+        localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+        window.location.href = "arrangements.html";
+      } catch (error) {
+        document.getElementById("meal-status").textContent = "Your browser could not save these choices. Please check browser storage settings and try again.";
+      }
     });
   </script>
-
-  <script src="script.js"></script>
 </body>
 </html>

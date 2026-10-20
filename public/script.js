@@ -1,36 +1,38 @@
-window.onload = function() {
-  const now = new Date();
 
-  document.getElementById("datetime").innerText = now.toLocaleString();
+function updateDateTime() {
+  const datetime = document.getElementById("datetime");
 
-  showTab('breakfast');
-};
-
-function showTab(tabId) {
-  document.querySelectorAll('.tab-content').forEach(div => div.classList.remove('active'));
-  document.getElementById(tabId).classList.add('active');
+  if (datetime) {
+    datetime.textContent = new Date().toLocaleString("en-ZA", {
+      timeZone: "Africa/Johannesburg"
+    });
+  }
 }
 
-document.getElementById("submit-btn").addEventListener("click", function() {
-  const breakfast = document.querySelector("input[name='breakfast']:checked")?.value;
-  const lunch = document.querySelector("input[name='lunch']:checked")?.value;
-  const dinner = document.querySelector("input[name='dinner']:checked")?.value;
+function showTab(tabId) {
+  document.querySelectorAll(".tab-content").forEach(tab => {
+    tab.classList.remove("active");
+  });
 
-  const now = new Date();
+  const selectedTab = document.getElementById(tabId);
 
-  const submission = {
-    breakfast,
-    lunch,
-    dinner,
-    submittedAt: now.toLocaleString()
-  };
+  if (selectedTab) {
+    selectedTab.classList.add("active");
+  }
 
-  fetch('/submit', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(submission)
-  })
-  .then(response => response.text())
-  .then(data => alert(data))
-  .catch(error => alert("Error submitting: " + error));
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.classList.toggle(
+      "active",
+      tab.getAttribute("onclick")?.includes(`'${tabId}'`)
+    );
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  updateDateTime();
+  setInterval(updateDateTime, 1000);
+
+  if (document.getElementById("breakfast")) {
+    showTab("breakfast");
+  }
 });

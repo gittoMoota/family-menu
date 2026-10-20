@@ -1,0 +1,423 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meal Arrangements &amp; Additional Information</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="arrangements-page">
+  <h1>Meal Arrangements</h1>
+  <div id="datetime" aria-live="off"></div>
+  <p class="page-intro">
+    Choose where and when you'd like your meals, then add any allergies or other information.
+  </p>
+
+  <main class="arrangements-layout">
+    <section class="meal-details">
+      <h2>Breakfast Arrangements</h2>
+      <label for="breakfast-location">Where would you like to eat breakfast?</label>
+      <select id="breakfast-location">
+        <option value="">Select a location</option>
+        <option>Dining table</option>
+        <option>Outside</option>
+        <option>Microwave oven area</option>
+        <option>Lounge</option>
+        <option>Self-collection</option>
+        <option>Bedroom</option>
+        <option>Office or study</option>
+        <option value="Other">Other</option>
+      </select>
+      <input type="text" id="breakfast-other-location"
+        placeholder="Enter another location" hidden>
+
+      <p>Would you like breakfast delivered to your chosen location?</p>
+      <div class="radio-row">
+        <label><input type="radio" name="breakfastDelivery" value="Yes"> Yes</label>
+        <label><input type="radio" name="breakfastDelivery" value="No"> No</label>
+      </div>
+      <p>No breakfast time selection is required.</p>
+
+      <hr>
+
+      <h2>Lunch Arrangements</h2>
+      <label for="lunch-location">Where would you like to eat lunch?</label>
+      <select id="lunch-location">
+        <option value="">Select a location</option>
+        <option>Dining table</option>
+        <option>Outside</option>
+        <option>Microwave oven area</option>
+        <option>Lounge</option>
+        <option>Self-collection</option>
+        <option>Bedroom</option>
+        <option>Office or study</option>
+        <option value="Other">Other</option>
+      </select>
+      <input type="text" id="lunch-other-location"
+        placeholder="Enter another location" hidden>
+
+      <p>Would you like lunch delivered to your chosen location?</p>
+      <div class="radio-row">
+        <label><input type="radio" name="lunchDelivery" value="Yes"> Yes</label>
+        <label><input type="radio" name="lunchDelivery" value="No"> No</label>
+      </div>
+
+      <label for="lunch-time">Preferred lunch time</label>
+      <select id="lunch-time">
+        <option value="">Select a time</option>
+        <option value="12:00">12:00</option>
+        <option value="12:30">12:30</option>
+        <option value="13:00">13:00</option>
+        <option value="13:30">13:30</option>
+        <option value="14:00">14:00</option>
+        <option value="14:30">14:30</option>
+        <option value="15:00">15:00</option>
+      </select>
+
+      <hr>
+
+      <h2>Dinner Arrangements</h2>
+      <label for="dinner-location">Where would you like to eat dinner?</label>
+      <select id="dinner-location">
+        <option value="">Select a location</option>
+        <option>Dining table</option>
+        <option>Outside</option>
+        <option>Microwave oven area</option>
+        <option>Lounge</option>
+        <option>Self-collection</option>
+        <option>Bedroom</option>
+        <option>Office or study</option>
+        <option value="Other">Other</option>
+      </select>
+      <input type="text" id="dinner-other-location"
+        placeholder="Enter another location" hidden>
+
+      <p>Would you like dinner delivered to your chosen location?</p>
+      <div class="radio-row">
+        <label><input type="radio" name="dinnerDelivery" value="Yes"> Yes</label>
+        <label><input type="radio" name="dinnerDelivery" value="No"> No</label>
+      </div>
+
+      <label for="dinner-time">Preferred dinner time</label>
+      <select id="dinner-time">
+        <option value="">Select a time</option>
+        <option value="18:30">18:30</option>
+        <option value="19:00">19:00</option>
+        <option value="19:30">19:30</option>
+        <option value="20:00">20:00</option>
+        <option value="20:30">20:30</option>
+        <option value="21:00">21:00</option>
+      </select>
+    </section>
+
+    <section class="allergies-box">
+      <h2>Allergies, Drinks &amp; Additional Information</h2>
+      <label for="allergies">
+        Tell us about allergies, foods or drinks you avoid, or anything else we should know.
+      </label>
+      <textarea id="allergies" rows="5"
+        placeholder="Enter allergies, food restrictions, drinks or additional information..."></textarea>
+      <p class="privacy-note">
+        Please include only information relevant to preparing your meals.
+      </p>
+    </section>
+  </main>
+
+  <p id="submit-status" class="form-status" role="status" aria-live="polite"></p>
+  <div class="page-actions">
+    <button id="back-btn" type="button" class="secondary-button">
+      Back to Meal Choices
+    </button>
+    <button id="submit-btn" type="button">Submit Choices</button>
+  </div>
+
+  <script>
+    const DRAFT_KEY = "familyMealDraft";
+    const MEALS = ["breakfast", "lunch", "dinner"];
+
+    function updateDateTime() {
+      document.getElementById("datetime").textContent =
+        new Date().toLocaleString("en-ZA", {
+          timeZone: "Africa/Johannesburg"
+        });
+    }
+
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+
+    function readDraft() {
+      try {
+        return JSON.parse(localStorage.getItem(DRAFT_KEY) || "{}");
+      } catch (error) {
+        console.warn("Could not read saved draft.", error);
+        return {};
+      }
+    }
+
+    function getRadioValue(name) {
+      return document.querySelector(
+        `input[name="${name}"]:checked`
+      )?.value || "";
+    }
+
+    function getLocation(meal) {
+      const select = document.getElementById(`${meal}-location`);
+      if (select.value === "Other") {
+        return document.getElementById(`${meal}-other-location`).value.trim();
+      }
+      return select.value;
+    }
+
+    function saveDraftFields() {
+      const draft = readDraft();
+
+      MEALS.forEach(meal => {
+        draft[`${meal}Location`] = getLocation(meal);
+        draft[`${meal}Delivery`] = getRadioValue(`${meal}Delivery`);
+      });
+
+      draft.lunchTime = document.getElementById("lunch-time").value;
+      draft.dinnerTime = document.getElementById("dinner-time").value;
+      draft.allergies = document.getElementById("allergies").value.trim();
+
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    }
+
+    function restoreDraftFields() {
+      const draft = readDraft();
+
+      MEALS.forEach(meal => {
+        const location = draft[`${meal}Location`] || "";
+        const select = document.getElementById(`${meal}-location`);
+        const other = document.getElementById(`${meal}-other-location`);
+
+        if (location) {
+          const knownOption = Array.from(select.options).some(option =>
+            option.value === location || option.textContent === location
+          );
+
+          if (knownOption) {
+            select.value = location;
+          } else {
+            select.value = "Other";
+            other.value = location;
+          }
+        }
+
+        other.hidden = select.value !== "Other";
+
+        const delivery = draft[`${meal}Delivery`];
+        if (delivery) {
+          const radio = document.querySelector(
+            `input[name="${meal}Delivery"][value="${delivery}"]`
+          );
+          if (radio) radio.checked = true;
+        }
+      });
+
+      document.getElementById("lunch-time").value = draft.lunchTime || "";
+      document.getElementById("dinner-time").value = draft.dinnerTime || "";
+      document.getElementById("allergies").value = draft.allergies || "";
+    }
+
+    MEALS.forEach(meal => {
+      const select = document.getElementById(`${meal}-location`);
+      const other = document.getElementById(`${meal}-other-location`);
+
+      select.addEventListener("change", () => {
+        other.hidden = select.value !== "Other";
+        if (other.hidden) other.value = "";
+
+        try {
+          saveDraftFields();
+        } catch (error) {
+          console.warn("Could not save draft.", error);
+        }
+      });
+    });
+
+    document.querySelectorAll(
+      "select, textarea, input[type='text'], input[type='radio']"
+    ).forEach(control => {
+      control.addEventListener("change", () => {
+        try { saveDraftFields(); } catch (error) { console.warn(error); }
+      });
+      control.addEventListener("input", () => {
+        try { saveDraftFields(); } catch (error) { console.warn(error); }
+      });
+    });
+
+    restoreDraftFields();
+
+    document.getElementById("back-btn").addEventListener("click", () => {
+      try {
+        saveDraftFields();
+      } catch (error) {
+        document.getElementById("submit-status").textContent =
+          "Your browser could not save this draft. Check your browser storage settings.";
+        return;
+      }
+
+      window.location.href = "suggestions.html";
+    });
+  </script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+    import {
+      getFirestore, collection, addDoc, serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+    import {
+      getAuth, signInAnonymously, signOut
+    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDHE2ME29K8RuJLGv_CKkom0IBK7vbrCHM",
+      authDomain: "familymealsuggestions.firebaseapp.com",
+      projectId: "familymealsuggestions",
+      storageBucket: "familymealsuggestions.firebasestorage.app",
+      messagingSenderId: "330453306691",
+      appId: "1:330453306691:web:29b62a28397c66c18533f6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+    const status = document.getElementById("submit-status");
+    const submitButton = document.getElementById("submit-btn");
+    const mealNames = ["breakfast", "lunch", "dinner"];
+
+    function getRadioValue(name) {
+      return document.querySelector(
+        `input[name="${name}"]:checked`
+      )?.value || "";
+    }
+
+    function getLocation(meal) {
+      const select = document.getElementById(`${meal}-location`);
+      return select.value === "Other"
+        ? document.getElementById(`${meal}-other-location`).value.trim()
+        : select.value;
+    }
+
+    async function ensureAnonymousUser() {
+      const current = auth.currentUser;
+
+      if (current?.isAnonymous) return current;
+      if (current) await signOut(auth);
+
+      return (await signInAnonymously(auth)).user;
+    }
+
+    function validateSubmission(choices, locations, allergies) {
+      if (!choices.breakfast && !choices.lunch && !choices.dinner && !allergies) {
+        return "Please choose at least one meal or enter additional information before submitting.";
+      }
+
+      for (const meal of mealNames) {
+        // "no" means breakfast was declined, not a meal to arrange.
+        if (!choices[meal] || (meal === "breakfast" && choices[meal] === "no")) {
+          continue;
+        }
+
+        if (!locations[meal]) {
+          document.getElementById(`${meal}-location`).focus();
+          return `Please choose a location for your ${meal}.`;
+        }
+
+        if (!getRadioValue(`${meal}Delivery`)) {
+          document.querySelector(`input[name="${meal}Delivery"]`).focus();
+          return `Please choose whether your ${meal} should be delivered.`;
+        }
+
+        if (document.getElementById(`${meal}-location`).value === "Other" &&
+            !locations[meal]) {
+          document.getElementById(`${meal}-other-location`).focus();
+          return `Please enter your other ${meal} location.`;
+        }
+
+        if (meal === "lunch" && !document.getElementById("lunch-time").value) {
+          document.getElementById("lunch-time").focus();
+          return "Please choose a preferred lunch time.";
+        }
+
+        if (meal === "dinner" && !document.getElementById("dinner-time").value) {
+          document.getElementById("dinner-time").focus();
+          return "Please choose a preferred dinner time.";
+        }
+      }
+
+      return "";
+    }
+
+    submitButton.addEventListener("click", async () => {
+      if (submitButton.disabled) return;
+
+      let draft = {};
+      try {
+        draft = JSON.parse(localStorage.getItem("familyMealDraft") || "{}");
+      } catch (_) {}
+
+      const choices = {
+        breakfast: draft.breakfast || "",
+        lunch: draft.lunch || "",
+        dinner: draft.dinner || ""
+      };
+
+      const allergies = document.getElementById("allergies").value.trim();
+      const name = localStorage.getItem("familyUserName") || "Anonymous";
+      const locations = {};
+
+      mealNames.forEach(meal => {
+        locations[meal] = getLocation(meal);
+      });
+
+      const validationMessage = validateSubmission(choices, locations, allergies);
+      if (validationMessage) {
+        status.textContent = validationMessage;
+        return;
+      }
+
+      submitButton.disabled = true;
+      status.textContent = "Submitting your choices… please wait.";
+
+      try {
+        await ensureAnonymousUser();
+
+        await addDoc(collection(db, "votes"), {
+          name,
+          breakfast: choices.breakfast,
+          breakfastLocation: locations.breakfast,
+          breakfastDelivery: getRadioValue("breakfastDelivery"),
+          breakfastTime: "",
+          lunch: choices.lunch,
+          lunchLocation: locations.lunch,
+          lunchDelivery: getRadioValue("lunchDelivery"),
+          lunchTime: document.getElementById("lunch-time").value,
+          dinner: choices.dinner,
+          dinnerLocation: locations.dinner,
+          dinnerDelivery: getRadioValue("dinnerDelivery"),
+          dinnerTime: document.getElementById("dinner-time").value,
+          allergies,
+          timestamp: new Date().toISOString(),
+          createdAt: serverTimestamp()
+        });
+
+        localStorage.removeItem("familyMealDraft");
+        status.textContent =
+          "Your choices were submitted successfully. Opening results sign-in…";
+        window.location.href = "suggResults.html";
+      } catch (error) {
+        console.error("Error saving meal suggestions:", error);
+
+        status.textContent = error.code === "permission-denied"
+          ? "Firebase denied this submission. Please check the Firestore security rules."
+          : `Your choices could not be saved (${error.code || "connection error"}). Please check your connection and try again.`;
+
+        submitButton.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

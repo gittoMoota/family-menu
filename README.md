@@ -13,7 +13,7 @@ https://familymealsuggestions-gitto1.web.app
 
 ---
 
-## 📖 About the Project
+## About the Project
 
 Family Meal Suggestions makes it easier for family members to coordinate meals and communicate their preferences before a family gathering.
 
@@ -27,13 +27,13 @@ The application is hosted on Firebase Hosting and is designed to operate within 
 
 ## ✨ Features
 
-### 🏠 Landing Page
+###  Landing Page
 
 - Introduces the family meal-planning application.
 - Provides access to the meal-selection process.
 - Presents relevant information and terms for participants.
 
-### 🥞 Meal Suggestions
+###  Meal Suggestions
 
 Family members can select their meal preferences from the available options.
 
@@ -52,7 +52,7 @@ Family members can select their meal preferences from the available options.
 - Pap, Tomato Gravy (Chakalaka) & Wors
 - Takeout
 
-### 📍 Meal Arrangements
+###  Meal Arrangements
 
 Participants can provide additional details for each selected meal.
 
@@ -62,7 +62,7 @@ Participants can provide additional details for each selected meal.
 - Lunch and dinner times can be selected.
 - Breakfast does not require a meal-time selection.
 
-### 📝 Allergies and Dietary Requirements
+###  Allergies and Dietary Requirements
 
 Participants can submit information about:
 
@@ -74,7 +74,7 @@ Participants can submit information about:
 
 Allergy and dietary information is treated as private submission data and is available only through the authorised results-access process.
 
-### 📊 Private Results Dashboard
+###  Private Results Dashboard
 
 The results page allows approved users to review submitted information, including:
 
@@ -104,7 +104,7 @@ The approved viewer list must be kept consistent between the results-page authen
 
 ---
 
-## 🔄 Application Workflow
+## Application Workflow
 
 ```text
 Landing Page
@@ -161,9 +161,6 @@ family-menu/
 └── README.md
 ```
 
-*Note: The structure above reflects the current application files. If additional files exist in your repository, include them in the project structure as appropriate.*
-
----
 
 ## ☁️ Database Structure
 
@@ -215,7 +212,7 @@ The following is an illustrative example, not a record from the live database.
 
 ```json
 {
-  "name": "Gift",
+  "name": "Gitto",
   "breakfast": "yes",
   "breakfastLocation": "Home",
   "breakfastDelivery": "no",
@@ -356,7 +353,7 @@ Only run the rules deployment when the project's `firestore.rules` file is confi
 
 
 
-## 💰 Firebase Plan
+##  Firebase Plan
 
 The application is intended to run on the **Firebase Spark (free) plan**, subject to the services and usage limits available under that plan.
 

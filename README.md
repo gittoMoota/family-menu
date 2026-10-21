@@ -32,7 +32,8 @@ The application is hosted on Firebase Hosting and is designed to operate within 
 - Introduces the family meal-planning application.
 - Provides access to the meal-selection process.
 - Presents relevant information and terms for participants.
-  <img width="1014" height="480" alt="image" src="https://github.com/user-attachments/assets/a23e0e75-d266-44bb-bd80-003beb9e8c75" /> <img width="951" height="474" alt="landing" src="https://github.com/user-attachments/assets/459f709c-f775-4cf1-a564-a735d7458764" />
+<img width="925" height="473" alt="landing 1" src="https://github.com/user-attachments/assets/a4d1aaba-b6ce-4fc0-b948-1d2a545549bf" />
+<img width="951" height="474" alt="landing" src="https://github.com/user-attachments/assets/459f709c-f775-4cf1-a564-a735d7458764" />
 
 
 

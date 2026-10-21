@@ -32,21 +32,31 @@ The application is hosted on Firebase Hosting and is designed to operate within 
 - Introduces the family meal-planning application.
 - Provides access to the meal-selection process.
 - Presents relevant information and terms for participants.
+  <img width="1014" height="480" alt="image" src="https://github.com/user-attachments/assets/a23e0e75-d266-44bb-bd80-003beb9e8c75" /> <img width="951" height="474" alt="landing" src="https://github.com/user-attachments/assets/459f709c-f775-4cf1-a564-a735d7458764" />
+
+
 
 ###  Meal Suggestions
 
 Family members can select their meal preferences from the available options.
 
 **Breakfast**
+<img width="938" height="369" alt="brk1" src="https://github.com/user-attachments/assets/76945c81-0444-4096-b1ca-bc880f1f1ada" />
+
 - Yes, I want breakfast.
 - No, I'll skip breakfast.
+  
 
 **Lunch**
+<img width="885" height="343" alt="lun" src="https://github.com/user-attachments/assets/4b5bf1a4-e874-4367-8117-a7666a52086d" />
+
 - Beef/Chicken Stew and Pap
 - Creamy Pasta / Sontag Kos
 - Takeouts
 
 **Dinner**
+<img width="909" height="339" alt="din" src="https://github.com/user-attachments/assets/dd07acfa-cefe-40d7-9b66-9813589a7af4" />
+
 - Sandwich & Fries
 - Steak & Fries
 - Pap, Tomato Gravy (Chakalaka) & Wors
@@ -55,6 +65,9 @@ Family members can select their meal preferences from the available options.
 ###  Meal Arrangements
 
 Participants can provide additional details for each selected meal.
+<img width="718" height="246" alt="brk" src="https://github.com/user-attachments/assets/86335e50-7b44-45e9-b5c6-4be8080b574d" />
+<img width="727" height="326" alt="lunch" src="https://github.com/user-attachments/assets/48e389d1-a0b9-4f9f-afbf-eb1de2fe32a7" />
+<img width="562" height="254" alt="dinner1" src="https://github.com/user-attachments/assets/60acaef0-1359-4b39-9f9f-0b5ce58a7e66" />
 
 - Breakfast, lunch, and dinner arrangements are handled separately.
 - Meal locations can be selected or entered using an **Other** option.
@@ -65,6 +78,8 @@ Participants can provide additional details for each selected meal.
 ###  Allergies and Dietary Requirements
 
 Participants can submit information about:
+<img width="499" height="412" alt="dinner" src="https://github.com/user-attachments/assets/5532a2e2-a099-4b40-96a2-efeda47cd5de" />
+
 
 - Food allergies
 - Dietary restrictions
@@ -75,6 +90,8 @@ Participants can submit information about:
 Allergy and dietary information is treated as private submission data and is available only through the authorised results-access process.
 
 ###  Private Results Dashboard
+<img width="507" height="240" alt="results" src="https://github.com/user-attachments/assets/f61e1d97-b447-4e9d-bab4-4afebccf3505" />
+
 
 The results page allows approved users to review submitted information, including:
 
@@ -83,10 +100,15 @@ The results page allows approved users to review submitted information, includin
 - Meal locations
 - Delivery preferences
 - Lunch and dinner times
+  <img width="941" height="473" alt="resu1" src="https://github.com/user-attachments/assets/bef1cee2-76f7-410f-9fac-f57df64137ea" />
+  <img width="782" height="323" alt="resu2" src="https://github.com/user-attachments/assets/dea620bb-0d02-4e9e-9f17-1700a59449ff" />
+
 - Allergy and dietary notes
 - Associated participant names, where provided
+  <img width="785" height="438" alt="aller" src="https://github.com/user-attachments/assets/9bd8d739-4fef-4325-a8aa-9e2b822c667f" />
 
-Access requires signing in with an approved, verified Google account.
+
+##Access requires signing in with an approved, verified Google account. (Access is restricted to my account only)##
 
 ### 🔐 Authentication and Security
 

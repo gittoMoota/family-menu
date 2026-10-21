@@ -108,7 +108,7 @@ The results page allows approved users to review submitted information, includin
   <img width="785" height="438" alt="aller" src="https://github.com/user-attachments/assets/9bd8d739-4fef-4325-a8aa-9e2b822c667f" />
 
 
-##Access requires signing in with an approved, verified Google account. (Access is restricted to my account only)##
+**Access requires signing in with an approved, verified Google account. (Access is restricted to my account only)**
 
 ### Authentication and Security
 
@@ -120,7 +120,6 @@ Firebase Authentication and Firestore Security Rules are used to control access.
 - **Restricted database access:** Unauthorised users cannot read submissions or modify or delete existing votes through the client.
 - **Default-deny rules:** Other Firestore collections and documents are denied unless explicitly permitted by the security rules.
 
-The approved viewer list must be kept consistent between the results-page authentication checks and the Firestore Security Rules.
 
 > **Security note:** Firebase client configuration is not a substitute for security rules. Never commit service-account private keys, passwords, or other server-side secrets to GitHub.
 

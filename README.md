@@ -42,18 +42,17 @@ The application is hosted on Firebase Hosting and is designed to operate within 
 Family members can select their meal preferences from the available options.
 
 **Breakfast**
-<img width="938" height="369" alt="brk1" src="https://github.com/user-attachments/assets/76945c81-0444-4096-b1ca-bc880f1f1ada" />
-
 - Yes, I want breakfast.
 - No, I'll skip breakfast.
+<img width="938" height="369" alt="brk1" src="https://github.com/user-attachments/assets/76945c81-0444-4096-b1ca-bc880f1f1ada" />
   
 
 **Lunch**
-<img width="885" height="343" alt="lun" src="https://github.com/user-attachments/assets/4b5bf1a4-e874-4367-8117-a7666a52086d" />
-
 - Beef/Chicken Stew and Pap
 - Creamy Pasta / Sontag Kos
 - Takeouts
+<img width="885" height="343" alt="lun" src="https://github.com/user-attachments/assets/4b5bf1a4-e874-4367-8117-a7666a52086d" />
+
 
 **Dinner**
 <img width="909" height="339" alt="din" src="https://github.com/user-attachments/assets/dd07acfa-cefe-40d7-9b66-9813589a7af4" />
@@ -79,8 +78,6 @@ Participants can provide additional details for each selected meal.
 ###  Allergies and Dietary Requirements
 
 Participants can submit information about:
-<img width="499" height="412" alt="dinner" src="https://github.com/user-attachments/assets/5532a2e2-a099-4b40-96a2-efeda47cd5de" />
-
 
 - Food allergies
 - Dietary restrictions
@@ -88,13 +85,15 @@ Participants can submit information about:
 - Special meal requirements
 - Additional food, drink, or arrangement notes
 
+<img width="499" height="412" alt="dinner" src="https://github.com/user-attachments/assets/5532a2e2-a099-4b40-96a2-efeda47cd5de" />
+
 Allergy and dietary information is treated as private submission data and is available only through the authorised results-access process.
 
 ###  Private Results Dashboard
+The results page allows approved users to review submitted information, including:
 <img width="507" height="240" alt="results" src="https://github.com/user-attachments/assets/f61e1d97-b447-4e9d-bab4-4afebccf3505" />
 
 
-The results page allows approved users to review submitted information, including:
 
 - Meal preference totals
 - Breakfast, lunch, and dinner selections
@@ -111,7 +110,7 @@ The results page allows approved users to review submitted information, includin
 
 ##Access requires signing in with an approved, verified Google account. (Access is restricted to my account only)##
 
-### 🔐 Authentication and Security
+### Authentication and Security
 
 Firebase Authentication and Firestore Security Rules are used to control access.
 
@@ -255,7 +254,7 @@ The following is an illustrative example, not a record from the live database.
 
 ---
 
-## 🛡️ Firestore Security Model
+## Firestore Security Model
 
 The application uses Firebase Security Rules to protect submitted information.
 
@@ -275,7 +274,7 @@ Security rules are enforced by Firebase, not just by the website's interface.
 
 ---
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 ### Frontend
 - HTML5
@@ -301,7 +300,7 @@ Security rules are enforced by Firebase, not just by the website's interface.
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -384,18 +383,18 @@ Monitor Firebase usage and quotas in the Firebase Console. Avoid introducing ser
 
 ---
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
 Possible future improvements include:
 
-- 📱 Further mobile and accessibility improvements
-- 📈 Historical meal reports
-- 🍽️ Configurable meal options
-- 📅 Meal-planning history
-- 🔔 Optional reminders
-- 📊 Improved results visualisation
-- 🧪 Automated validation and testing
-- 🛡️ Stronger validation of submitted Firestore data
+- Further mobile and accessibility improvements
+- Historical meal reports
+- Configurable meal options
+- Meal-planning history
+- Optional reminders
+- Improved results visualisation
+- Automated validation and testing
+- Stronger validation of submitted Firestore data
 
 ---
 

@@ -54,13 +54,13 @@ Family members can select their meal preferences from the available options.
 <img width="885" height="343" alt="lun" src="https://github.com/user-attachments/assets/4b5bf1a4-e874-4367-8117-a7666a52086d" />
 
 
-**Dinner**
-<img width="909" height="339" alt="din" src="https://github.com/user-attachments/assets/dd07acfa-cefe-40d7-9b66-9813589a7af4" />
 
+**Dinner**
 - Sandwich & Fries
 - Steak & Fries
 - Pap, Tomato Gravy (Chakalaka) & Wors
 - Takeout
+<img width="909" height="339" alt="din" src="https://github.com/user-attachments/assets/dd07acfa-cefe-40d7-9b66-9813589a7af4" />
 
 ###  Meal Arrangements
 

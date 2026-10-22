@@ -21,11 +21,10 @@ Family members can select their preferred breakfast, lunch, and dinner options, 
 
 Submissions are stored in **Firebase Cloud Firestore**. The results page is restricted to approved, verified Google accounts to protect family voting information and allergy details.
 
-The application is hosted on Firebase Hosting and is designed to operate within the Firebase Spark (free) plan.
 
 ---
 
-## ✨ Features
+## Features
 
 ###  Landing Page
 
@@ -183,7 +182,7 @@ family-menu/
 ```
 
 
-## ☁️ Database Structure
+## Database Structure
 
 ### Firestore Collections
 
@@ -397,7 +396,7 @@ Possible future improvements include:
 
 ---
 
-## 🎓 Learning Outcomes
+## Learning Outcomes
 
 This project provides practical experience in:
 
